@@ -15,6 +15,16 @@ Build (SSG):
 npm run build
 ```
 
+## Writing posts
+
+Posts live in `content/posts/*.md` and are parsed with `gray-matter`.
+
+- **Always start from a template** in `content/template/`:
+  - `content/template/template_web.md`
+  - `content/template/template_ml.md`
+- **Create a new post** by copying a template to `content/posts/<slug>.md`.
+- **Keep YAML frontmatter at the top** (at least `title`; `date` / `description` are optional).
+
 ## Design
 
 Design tokens are defined in `DESIGN.md` and implemented as CSS custom properties in `public/static/style.css`.
