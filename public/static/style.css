@@ -1,35 +1,49 @@
 /* Design Tokens (source of truth: DESIGN.md) */
 :root {
-  --color-primary: #2563eb;
-  --color-primary-hover: #1d4ed8;
-  --color-text: #0f172a;
-  --color-text-muted: #475569;
-  --color-bg: #ffffff;
-  --color-surface: #f8fafc;
-  --color-border: #e2e8f0;
+  /* ブランド・アクセント */
+  --color-blue: #0096fa;
+  --color-blue-dark: #0069b5;
 
+  /* テキスト */
+  --charcoal-text: #464a4d;
+  --charcoal-text-secondary: #8c8c8c;
+  --charcoal-text-disabled: #b8b8b8;
+
+  /* 背景・サーフェス */
+  --charcoal-bg: #eeeeee;
+  --charcoal-surface: #ffffff;
+
+  /* ボーダー */
+  --charcoal-border: #d6d6d6;
+
+  /* セマンティック */
+  --charcoal-like: #ff4060;
+  --charcoal-danger: #ff0000;
+  --charcoal-warning: #f5a623;
+  --charcoal-success: #00c853;
+
+  /* Typography */
   --font-sans:
-    ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
-    'Apple Color Emoji', 'Segoe UI Emoji';
+    system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, Cantarell, 'Noto Sans', sans-serif;
+  --font-mono: SFMono-Regular, Consolas, Menlo, monospace;
   --font-weight-regular: 400;
-  --font-weight-medium: 500;
   --font-weight-bold: 700;
 
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
+  /* Sizes (DESIGN.md: body 12px default / 14px paragraph) */
+  --text-caption: 10px;
+  --text-body-sm: 12px;
+  --text-body: 14px;
 
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-10: 40px;
-  --space-12: 48px;
+  /* Layout / Spacing scale */
+  --space-xs: 4px;
+  --space-s: 8px;
+  --space-m: 16px;
+  --space-l: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+
+  --radius-sm: 4px;
+  --shadow-1: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
 *,
@@ -45,86 +59,88 @@ body {
 
 body {
   margin: 0;
-  color: var(--color-text);
-  background: var(--color-bg);
+  color: var(--charcoal-text);
+  background: var(--charcoal-bg);
   font-family: var(--font-sans);
   font-weight: var(--font-weight-regular);
-  font-size: var(--text-base);
-  line-height: 1.6;
+  font-size: var(--text-body-sm);
+  line-height: 1.5;
+  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 a {
-  color: var(--color-primary);
+  color: var(--color-blue);
   text-decoration: none;
 }
 
 a:hover {
-  color: var(--color-primary-hover);
+  color: var(--color-blue-dark);
   text-decoration: underline;
 }
 
 .container {
-  max-width: 960px;
+  max-width: 1224px;
   margin: 0 auto;
-  padding: var(--space-6) var(--space-4);
+  padding: var(--space-l) var(--space-m);
 }
 
 .siteHeader {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: color-mix(in oklab, var(--color-bg), var(--color-surface) 35%);
-  border-bottom: 1px solid var(--color-border);
-  backdrop-filter: blur(10px);
+  background: var(--charcoal-surface);
+  border-bottom: 1px solid var(--charcoal-border);
 }
 
 .siteHeaderInner {
-  max-width: 960px;
+  max-width: 1224px;
   margin: 0 auto;
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-s) var(--space-m);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-4);
+  gap: var(--space-m);
 }
 
 .siteBrand {
   display: inline-flex;
   align-items: baseline;
-  gap: var(--space-2);
+  gap: var(--space-s);
   font-weight: var(--font-weight-bold);
-  letter-spacing: -0.01em;
+  letter-spacing: normal;
 }
 
 .siteBrandTitle {
-  font-size: var(--text-lg);
+  font-size: var(--text-body);
 }
 
 .siteBrandSubtitle {
-  font-size: var(--text-sm);
+  font-size: var(--text-body-sm);
   font-weight: var(--font-weight-regular);
-  color: var(--color-text-muted);
+  color: var(--charcoal-text-secondary);
 }
 
 .siteNav {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  font-size: var(--text-sm);
+  gap: var(--space-s);
+  font-size: var(--text-body-sm);
 }
 
 .siteNavLink {
-  padding: var(--space-2) var(--space-3);
-  border-radius: 10px;
+  padding: var(--space-s) var(--space-m);
+  border-radius: var(--radius-sm);
 }
 
 .siteNavLink:hover {
-  background: color-mix(in oklab, var(--color-primary), transparent 92%);
+  background: rgba(0, 150, 250, 0.08);
   text-decoration: none;
 }
 
 h1 {
-  font-size: var(--text-xl);
+  font-size: var(--text-body);
   font-weight: var(--font-weight-bold);
-  margin: 0 0 var(--space-4);
+  line-height: 1.5;
+  margin: 0 0 var(--space-m);
 }
