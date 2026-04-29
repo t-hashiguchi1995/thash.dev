@@ -10,7 +10,7 @@ app.use(renderer)
 // トップページ（記事一覧）
 app.get('/', (c) => {
   const posts = getPosts()
-  return c.html(
+  return c.render(
     <div>
       <h1>Posts</h1>
       <ul>
@@ -37,7 +37,7 @@ app.get(
     const post = getPostBySlug(slug)
     if (!post) return c.notFound()
 
-    return c.html(
+    return c.render(
       <article>
         <h1>{post.frontmatter.title}</h1>
         <div dangerouslySetInnerHTML={{ __html: post.content }} />
