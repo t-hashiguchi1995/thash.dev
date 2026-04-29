@@ -1,8 +1,11 @@
 import { Hono } from 'hono'
 import { ssgParams } from 'hono/ssg'
+import { renderer } from './renderer'
 import { getPosts, getPostBySlug } from './utils/content'
 
 const app = new Hono()
+
+app.use(renderer)
 
 // トップページ（記事一覧）
 app.get('/', (c) => {
