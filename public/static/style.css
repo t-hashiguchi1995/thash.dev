@@ -1,3 +1,130 @@
+/* Design Tokens (source of truth: DESIGN.md) */
+:root {
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+  --color-bg: #ffffff;
+  --color-surface: #f8fafc;
+  --color-border: #e2e8f0;
+
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    'Apple Color Emoji', 'Segoe UI Emoji';
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+}
+
+.siteHeader {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: color-mix(in oklab, var(--color-bg), var(--color-surface) 35%);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(10px);
+}
+
+.siteHeaderInner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.siteBrand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.01em;
+}
+
+.siteBrandTitle {
+  font-size: var(--text-lg);
+}
+
+.siteBrandSubtitle {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-muted);
+}
+
+.siteNav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+}
+
+.siteNavLink {
+  padding: var(--space-2) var(--space-3);
+  border-radius: 10px;
+}
+
+.siteNavLink:hover {
+  background: color-mix(in oklab, var(--color-primary), transparent 92%);
+  text-decoration: none;
+}
+
 h1 {
-  font-family: Arial, Helvetica, sans-serif;
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0 0 var(--space-4);
 }

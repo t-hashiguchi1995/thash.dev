@@ -9,7 +9,7 @@ app.get('/', (c) => {
   const posts = getPosts()
   return c.html(
     <div>
-      <h1>thash.dev</h1>
+      <h1>Posts</h1>
       <ul>
         {posts.map((post) => (
           <li key={post.slug}>
