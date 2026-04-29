@@ -1,5 +1,8 @@
 import matter from 'gray-matter'
 import { z } from 'zod'
+import { remark } from 'remark'
+import remarkHtml from 'remark-html'
+import remarkGfm from 'remark-gfm'
 
 const postFiles = import.meta.glob('../../content/posts/*.md', {
   eager: true,
@@ -11,6 +14,7 @@ const FrontmatterSchema = z
   .object({
     title: z.string(),
     date: z.string().optional(),
+    description: z.string().optional(),
   })
   .passthrough()
 
@@ -38,13 +42,16 @@ export const getPosts = (): PostSummary[] => {
   })
 }
 
-export const getPostBySlug = (slug: string): Post | null => {
+export const getPostBySlug = async (slug: string): Promise<Post | null> => {
   const filePath = Object.keys(postFiles).find((p) => p.endsWith(`/content/posts/${slug}.md`))
   const raw = filePath ? postFiles[filePath] : undefined
   if (!raw) return null
 
   const { data, content } = matter(raw)
   const frontmatter = FrontmatterSchema.parse(data)
-  // 本来はここでremark等を使ってHTML変換しますが、一旦そのまま返します
-  return { frontmatter, content }
+  const processed = await remark()
+    .use(remarkGfm)
+    .use(remarkHtml, { sanitize: false })
+    .process(content)
+  return { frontmatter, content: processed.toString() }
 }

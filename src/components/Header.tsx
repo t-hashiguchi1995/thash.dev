@@ -15,6 +15,9 @@ export const Header = ({ subtitle = 'notes & experiments' }: HeaderProps) => {
           <a class="siteNavLink" href="/">
             Home
           </a>
+          <a class="siteNavLink" href="/products">
+            Products
+          </a>
         </nav>
       </div>
     </header>
