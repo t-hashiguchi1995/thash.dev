@@ -1,21 +1,24 @@
-/* Design tokens — portfolio blog reference */
+/* Design tokens — portfolio blog reference
+   Hex first for older browsers; oklch overrides when supported. */
 :root {
-  --bg: oklch(98% 0.005 90);
-  --bg-soft: oklch(96% 0.006 90);
+  --bg: #fafaf7;
+  --bg-soft: #f3f2ef;
   --surface: #ffffff;
-  --text: oklch(20% 0.01 90);
-  --text-secondary: oklch(45% 0.01 90);
-  --text-muted: oklch(50% 0.01 90);
-  --border: oklch(90% 0.008 90);
-  --border-soft: oklch(91% 0.008 90);
-  --accent: oklch(55% 0.14 227);
-  --accent-strong: oklch(45% 0.13 227);
-  --accent-deep: oklch(38% 0.14 227);
-  --accent-soft: oklch(92% 0.03 227);
-  --selection: oklch(85% 0.09 227);
+  --text: #2a2926;
+  --text-secondary: #6b6964;
+  --text-muted: #7d7a74;
+  --border: #e2e0db;
+  --border-soft: #e6e4df;
+  --accent: #3d7eb8;
+  --accent-strong: #2f6a9e;
+  --accent-deep: #245887;
+  --accent-soft: #e5f0f8;
+  --selection: #c9dff0;
 
-  --font-sans: 'Noto Sans JP', system-ui, sans-serif;
-  --font-display: 'M PLUS Rounded 1c', 'Noto Sans JP', sans-serif;
+  --font-sans:
+    'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, system-ui, sans-serif;
+  --font-display:
+    'M PLUS Rounded 1c', 'Noto Sans JP', 'Hiragino Sans', Meiryo, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', SFMono-Regular, Consolas, Menlo, monospace;
 
   --space-xs: 4px;
@@ -32,6 +35,23 @@
   --radius-lg: 16px;
   --radius-xl: 24px;
   --container: 1120px;
+}
+
+@supports (color: oklch(0% 0 0)) {
+  :root {
+    --bg: oklch(98% 0.005 90);
+    --bg-soft: oklch(96% 0.006 90);
+    --text: oklch(20% 0.01 90);
+    --text-secondary: oklch(45% 0.01 90);
+    --text-muted: oklch(50% 0.01 90);
+    --border: oklch(90% 0.008 90);
+    --border-soft: oklch(91% 0.008 90);
+    --accent: oklch(55% 0.14 227);
+    --accent-strong: oklch(45% 0.13 227);
+    --accent-deep: oklch(38% 0.14 227);
+    --accent-soft: oklch(92% 0.03 227);
+    --selection: oklch(85% 0.09 227);
+  }
 }
 
 *,
@@ -52,9 +72,10 @@ body {
 body {
   margin: 0;
   color: var(--text);
-  background:
-    radial-gradient(1200px 500px at 12% -10%, oklch(94% 0.02 227 / 0.55), transparent 60%),
-    radial-gradient(900px 420px at 100% 0%, oklch(96% 0.015 90 / 0.8), transparent 55%), var(--bg);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(1200px 500px at 12% -10%, rgba(61, 126, 184, 0.12), transparent 60%),
+    radial-gradient(900px 420px at 100% 0%, rgba(243, 242, 239, 0.9), transparent 55%);
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: 16px;
@@ -82,9 +103,15 @@ a:hover {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: oklch(98% 0.005 90 / 0.85);
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
+}
+
+@supports (background: oklch(98% 0.005 90 / 0.85)) {
+  .siteHeader {
+    background: oklch(98% 0.005 90 / 0.85);
+  }
 }
 
 .siteHeaderInner {
@@ -246,12 +273,12 @@ a:hover {
 
 .btnPrimary {
   background: var(--accent);
-  color: oklch(99% 0 0);
+  color: #fafafa;
 }
 
 .btnPrimary:hover {
   background: var(--accent-strong);
-  color: oklch(99% 0 0);
+  color: #fafafa;
 }
 
 .btnSecondary {
@@ -838,10 +865,6 @@ a:hover {
     gap: var(--space-xl);
   }
 
-  .heroVisual {
-    order: -1;
-  }
-
   .heroVisualCard {
     aspect-ratio: 16 / 9;
     padding: 28px;
@@ -865,8 +888,14 @@ a:hover {
   }
 
   .siteNav {
-    gap: 16px;
-    font-size: 13px;
+    gap: 12px;
+    font-size: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .heroVisual {
+    display: none;
   }
 
   .home,

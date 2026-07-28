@@ -1,6 +1,7 @@
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
+import { STYLE_CSS_HREF } from './utils/assets'
 import { defaultMeta, toAbsoluteUrl } from './utils/seo'
 
 export const renderer = jsxRenderer(({ children }, c) => {
@@ -27,7 +28,7 @@ export const renderer = jsxRenderer(({ children }, c) => {
           href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=M+PLUS+Rounded+1c:wght@700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
-        <link href="/static/style.css" rel="stylesheet" />
+        <link href={STYLE_CSS_HREF} rel="stylesheet" />
 
         {ga4MeasurementId ? (
           <>
