@@ -54,8 +54,7 @@ app.get('/', (c) => {
             </span>
           </h1>
           <p class="heroLead">
-            個人開発したアプリの紹介や、Web
-            開発・インフラまわりの備忘録を書いています。Cloudflare
+            個人開発したアプリの紹介や、Web 開発・インフラまわりの備忘録を書いています。Cloudflare
             で動いているこのサイトも、ゆるく育てていく予定です。
           </p>
           <div class="heroActions">
