@@ -16,7 +16,10 @@ export const Header = (_props: HeaderProps) => {
             トップ
           </a>
           <a class="siteNavLink" href="/#articles">
-            記事一覧
+            記事
+          </a>
+          <a class="siteNavLink" href="/#topics">
+            テーマ
           </a>
           <a class="siteNavLink" href="/products">
             アプリ

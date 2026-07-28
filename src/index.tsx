@@ -26,15 +26,39 @@ const guessTag = (title: string, description?: string) => {
   const text = `${title} ${description ?? ''}`.toLowerCase()
   if (text.includes('cloudflare')) return 'Cloudflare'
   if (text.includes('worker')) return 'Workers'
+  if (text.includes('seo') || text.includes('domain')) return 'SEO'
   return 'Notes'
 }
+
+const formatPostDate = (date?: string) => {
+  if (!date) return null
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date)
+  if (!match) return date
+  const [, y, m, d] = match
+  return `${y}年${Number(m)}月${Number(d)}日`
+}
+
+const HOME_TOPICS = [
+  {
+    label: 'Cloudflare',
+    body: 'Pages / Workers / ドメイン周りで詰まったところを残します。',
+  },
+  {
+    label: 'Web & インフラ',
+    body: 'デプロイ、SSL、SEO、運用の最低ラインを手早く確認できる形で。',
+  },
+  {
+    label: '個人開発',
+    body: '小さく作って公開する過程そのものを、あとから見返せるようにします。',
+  },
+] as const
 
 // トップページ
 app.get('/', (c) => {
   c.set('meta', {
     title: 'thash.dev',
     description:
-      '個人開発したアプリの紹介や、Web開発・インフラまわりの備忘録。Cloudflare で動く thash.dev。',
+      'つくったもの・試したことを残す個人サイト。Cloudflare や Web 周りのメモと、個人開発の記録。',
     canonicalPath: '/',
   })
   const posts = sortPostsByDateDesc()
@@ -44,25 +68,25 @@ app.get('/', (c) => {
     <div class="home">
       <section class="hero" aria-label="Introduction">
         <div class="heroCopy">
-          <div class="heroBadge">Web Developer / Cloudflare</div>
+          <div class="heroBadge">Web / Cloudflare / 個人開発</div>
           <h1 class="heroTitle">
             <span class="heroBrand">thash.dev</span>
             <span class="heroTitleLine">つくったもの、</span>
-            <span class="heroTitleLine">学んだことを、</span>
+            <span class="heroTitleLine">試したことを、</span>
             <span class="heroTitleLine">
-              <span class="heroAccent">気ままに</span>記録する場所。
+              <span class="heroAccent">そのまま</span>残す場所。
             </span>
           </h1>
           <p class="heroLead">
-            個人開発したアプリの紹介や、Web 開発・インフラまわりの備忘録を書いています。Cloudflare
-            で動いているこのサイトも、ゆるく育てていく予定です。
+            Cloudflare や Web 周りの備忘録と、個人開発の記録を置いています。このサイト自体も Hono +
+            Pages で動かしながら、少しずつ育てています。
           </p>
           <div class="heroActions">
             <a class="btn btnPrimary" href="#articles">
               記事を読む
             </a>
-            <a class="btn btnSecondary" href="/products">
-              アプリを見る
+            <a class="btn btnSecondary" href="#topics">
+              テーマを見る
             </a>
           </div>
         </div>
@@ -71,7 +95,7 @@ app.get('/', (c) => {
           <div class="heroVisualCard">
             <div class="heroVisualDot" />
             <div class="heroVisualName">thash.dev</div>
-            <div class="heroVisualMeta">notes &amp; experiments</div>
+            <div class="heroVisualMeta">Hono · Cloudflare Pages · notes</div>
             <div class="heroVisualGrid">
               <span />
               <span />
@@ -84,20 +108,20 @@ app.get('/', (c) => {
 
       <section class="homeSection" id="articles">
         <div class="sectionHead">
-          <h2 class="sectionTitle">最新の記事</h2>
-          {posts.length > 3 ? (
-            <a class="sectionMore" href="#articles">
-              すべて見る →
-            </a>
-          ) : null}
+          <div>
+            <h2 class="sectionTitle">最新の記事</h2>
+            <p class="sectionLead">最近書いたメモからどうぞ。</p>
+          </div>
         </div>
 
         {latest.length === 0 ? (
           <p class="emptyHint">まだ記事がありません。</p>
         ) : (
-          <div class="postCardGrid">
+          <div class={`postCardGrid postCardGrid--${Math.min(latest.length, 3)}`}>
             {latest.map((post) => {
               const tag = guessTag(post.frontmatter.title, post.frontmatter.description)
+              const description = post.frontmatter.description?.trim()
+              const dateLabel = formatPostDate(post.frontmatter.date)
               return (
                 <a class="postCard" href={`/posts/${post.slug}`} key={post.slug}>
                   <div class="postCardThumb" data-tag={tag}>
@@ -106,9 +130,8 @@ app.get('/', (c) => {
                   <div class="postCardBody">
                     <span class="postCardTag">{tag}</span>
                     <h3 class="postCardTitle">{post.frontmatter.title}</h3>
-                    {post.frontmatter.date ? (
-                      <p class="postCardMeta">{post.frontmatter.date}</p>
-                    ) : null}
+                    {description ? <p class="postCardDesc">{description}</p> : null}
+                    {dateLabel ? <p class="postCardMeta">{dateLabel}</p> : null}
                   </div>
                 </a>
               )
@@ -122,7 +145,7 @@ app.get('/', (c) => {
               <li key={post.slug}>
                 <a href={`/posts/${post.slug}`}>{post.frontmatter.title}</a>
                 {post.frontmatter.date ? (
-                  <span class="postListQuietDate">{post.frontmatter.date}</span>
+                  <span class="postListQuietDate">{formatPostDate(post.frontmatter.date)}</span>
                 ) : null}
               </li>
             ))}
@@ -130,26 +153,53 @@ app.get('/', (c) => {
         ) : null}
       </section>
 
+      <section class="homeSection" id="topics">
+        <div class="sectionHead">
+          <div>
+            <h2 class="sectionTitle">書いていくテーマ</h2>
+            <p class="sectionLead">広く浅くではなく、手が止まったところを優先して残します。</p>
+          </div>
+        </div>
+        <div class="topicGrid">
+          {HOME_TOPICS.map((topic) => (
+            <div class="topicCard" key={topic.label}>
+              <h3 class="topicTitle">{topic.label}</h3>
+              <p class="topicBody">{topic.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section class="homeSection" id="apps">
         <div class="sectionHead">
-          <h2 class="sectionTitle">個人開発アプリ</h2>
+          <div>
+            <h2 class="sectionTitle">つくっているもの</h2>
+            <p class="sectionLead">
+              いま公開できるアプリはこれから。まずはこのサイト自体が実験場です。
+            </p>
+          </div>
           <a class="sectionMore" href="/products">
-            すべて見る →
+            Products →
           </a>
         </div>
         <div class="appStrip">
-          <div class="appStripItem">
+          <a class="appStripItem appStripItemLink" href="/">
             <div class="appStripIcon" aria-hidden="true">
-              #
+              td
             </div>
             <div>
-              <h3 class="appStripTitle">Products</h3>
-              <p class="appStripBody">準備中。詳細ができ次第、ここに追加します。</p>
+              <h3 class="appStripTitle">thash.dev</h3>
+              <p class="appStripBody">
+                Hono の SSG と Cloudflare Pages
+                で動かす個人サイト。記事・SEO・ドメイン運用まで一通り載せていきます。
+              </p>
               <div class="appStripTags">
-                <span>Coming soon</span>
+                <span>Hono</span>
+                <span>Pages</span>
+                <span>SSG</span>
               </div>
             </div>
-          </div>
+          </a>
         </div>
       </section>
     </div>,
@@ -200,28 +250,30 @@ app.get(
 app.get('/products', (c) => {
   c.set('meta', {
     title: 'Products | thash.dev',
-    description: '個人開発したアプリ・OSS。',
+    description: '個人開発のアプリ・ツール。公開できるものができ次第追加します。',
     canonicalPath: '/products',
   })
   return c.render(
     <div class="page">
       <header class="pageHeader">
         <h1 class="pageTitle">つくったアプリ</h1>
-        <p class="pageSubtitle">個人開発したアプリ・OSSをまとめています。</p>
+        <p class="pageSubtitle">
+          公開できるものができ次第、ここにまとめていきます。いまは thash.dev
+          自体の運用と記事がメインです。
+        </p>
       </header>
 
       <div class="productGrid" role="list">
         <div class="productCard" role="listitem">
-          <div class="productTitle">Product #1</div>
-          <div class="productBody">準備中。詳細ができ次第、ここに追加します。</div>
+          <div class="productTitle">thash.dev</div>
+          <div class="productBody">
+            Hono + Cloudflare Pages の個人サイト。記事、独自ドメイン、SEO
+            まわりまで載せていく実験場です。
+          </div>
         </div>
         <div class="productCard" role="listitem">
-          <div class="productTitle">Product #2</div>
-          <div class="productBody">準備中。詳細ができ次第、ここに追加します。</div>
-        </div>
-        <div class="productCard" role="listitem">
-          <div class="productTitle">Product #3</div>
-          <div class="productBody">準備中。詳細ができ次第、ここに追加します。</div>
+          <div class="productTitle">次のアプリ</div>
+          <div class="productBody">準備中。小さく作って公開できたものから追加します。</div>
         </div>
       </div>
     </div>,

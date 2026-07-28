@@ -367,9 +367,18 @@ a:hover {
   margin: 0;
 }
 
+.sectionLead {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
 .sectionMore {
   font-size: 14px;
   font-weight: 600;
+  align-self: flex-start;
+  margin-top: 4px;
 }
 
 .emptyHint {
@@ -380,6 +389,15 @@ a:hover {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
+}
+
+.postCardGrid--1 {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 420px;
+}
+
+.postCardGrid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .postCard {
@@ -439,6 +457,17 @@ a:hover {
   line-height: 1.5;
 }
 
+.postCardDesc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin: 0 0 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .postCardMeta {
   font-size: 13px;
   color: var(--text-muted);
@@ -467,6 +496,33 @@ a:hover {
   white-space: nowrap;
 }
 
+/* Topics */
+.topicGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.topicCard {
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-soft);
+  background: var(--surface);
+}
+
+.topicTitle {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.topicBody {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
 /* Apps strip */
 .appStrip {
   display: grid;
@@ -480,6 +536,17 @@ a:hover {
   border-radius: var(--radius-lg);
   padding: 20px;
   border: 1px solid var(--border-soft);
+}
+
+.appStripItemLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.appStripItemLink:hover {
+  color: inherit;
+  text-decoration: none;
+  border-color: oklch(82% 0.04 227);
 }
 
 .appStripIcon {
@@ -781,7 +848,10 @@ a:hover {
   }
 
   .postCardGrid,
-  .productGrid {
+  .postCardGrid--2,
+  .postCardGrid--3,
+  .productGrid,
+  .topicGrid {
     grid-template-columns: 1fr;
   }
 }

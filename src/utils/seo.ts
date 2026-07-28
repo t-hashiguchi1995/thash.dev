@@ -14,7 +14,7 @@ export function toAbsoluteUrl(pathname: string): string {
 export function defaultMeta(): Required<Pick<PageMeta, 'title' | 'description' | 'canonicalPath'>> {
   return {
     title: 'thash.dev',
-    description: 'Personal site.',
+    description: 'つくったもの・試したことを残す個人サイト。',
     canonicalPath: '/',
   }
 }
